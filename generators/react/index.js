@@ -85,6 +85,7 @@ module.exports = Base.extend({
         author: this.author,
         port: this.port,
         javascriptType: this.javascriptType,
+        useCssModules: this.useCssModules,
       }
     );
     this.fs.copyTpl(

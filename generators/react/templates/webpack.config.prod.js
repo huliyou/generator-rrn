@@ -40,23 +40,23 @@ const config = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
           'style?sourceMap',
+          <% if (useCssModules) {%>
           'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          <%} else {%>
+          'css',
+          <%}%>
           'postcss-loader?sourceMap'
         ),
         exclude: /node_modules|npminstall/,
       },
       {
-        test: /\.css$/,
-        // include: /src\/assets\/stylesheets\/CommonStyle\/gallery.css|src\/assets\/stylesheets\/antd.css|node_modules/,
-        include: /node_modules|npminstall/,
-        loader: ExtractTextPlugin.extract(
-          ['css']
-        ),
-      },
-      {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style',
+          <% if (useCssModules) {%>
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]' +
+          <%} else {%>
+          'css',
+          <%}%>
           '!autoprefixer-loader!sass-loader'
         ),
       },

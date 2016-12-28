@@ -25,28 +25,30 @@ const config = {
         loader: 'react-hot!babel',
       },
       {
-        test: /\.css/,
+        test: /\.css$/,
         loaders: [
           'style?sourceMap',
+          <% if (useCssModules) {%>
           'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          <%} else {%>
+          'css',
+          <%}%>
           'postcss-loader?sourceMap',
         ],
-        // exclude: /node_modules|src\/assets\/stylesheets\/antd.css|src\/assets\/stylesheets\/CommonStyle\/gallery.css/,
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css/,
-        // include: /src\/assets\/stylesheets\/CommonStyle\/gallery.css|src\/assets\/stylesheets\/antd.css|node_modules/,
-        include: /node_modules/,
-        loader: 'style-loader!css-loader!postcss-loader',
       },
       {
         test: /\.scss$/,
         loaders: [
           'style?sourceMap',
+          <% if (useCssModules) {%>
           'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          <%} else {%>
+          'css',
+          <%}%>
           'sass?sourceMap',
         ],
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpg)$/,
