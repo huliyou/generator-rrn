@@ -15,8 +15,7 @@ module.exports = Base.extend({
     this.option('port', {type: Number, defaults: '8000'});
     this.option('projectVersion', {type: String, defaults: '1.0.0'});
     this.option('author', {type: String, defaults: ''});
-    this.option('pkgName', {type: String, defaults: ''});
-    this.option('repoUrl', {type: String, defaults: ''});
+    this.option('useCssMoudles', {type: Boolean, defaults: true});
   },
   prompting: function () {
     return this.prompt([
@@ -28,7 +27,7 @@ module.exports = Base.extend({
     },
     { // 项目版本
       type    : 'input',
-      name    : 'projectVerion',
+      name    : 'projectVersion',
       message : 'Your project version ?',
       default: this.options.projectVersion,
     },
@@ -43,13 +42,36 @@ module.exports = Base.extend({
       name    : 'port',
       message : 'Your dev server port ?',
       default : this.options.port,
+    },
+    // javascript type
+    {
+      type    : 'list',
+      name    : 'javascriptType',
+      message : 'Your javascript type ?',
+      choices : ['flow', 'typescript'],
+    },
+    // use css module ?
+    {
+      type    : 'confirm',
+      name    : 'useCssModules',
+      message : 'Use css modules ?',
+      default : this.options.useCssMoudles,
+    },
+    // css preprocessors
+    {
+      type    : 'checkbox',
+      name    : 'cssPreprocessors',
+      message : 'css preprocessors ?',
+      choices : ['cssnext', 'sass', 'less']
     }
   ]).then(function (answers) {
-      // this.option('projectName', answers.projectName);
-      // this.option('version', answers.version);
       this.projectName = answers.projectName;
       this.version = answers.projectVersion;
-      this.port = answers.port
+      this.author = answers.author;
+      this.port = answers.port;
+      this.javascriptType = answers.javascriptType;
+      this.useCssModules = answers.useCssModules;
+      this.cssPreprocessors = answers.cssPreprocessors;
     }.bind(this));
   },
 
@@ -59,20 +81,25 @@ module.exports = Base.extend({
       this.destinationPath(this.projectName + '/'),
       {
         projectName: this.projectName,
-        projectVersion: this.projectVersion,
+        projectVersion: this.version,
         author: this.author,
         port: this.port,
+        javascriptType: this.javascriptType,
       }
     );
     this.fs.copyTpl(
       this.templatePath('.babelrc'),
       this.destinationPath(this.projectName + '/.babelrc'),
       {
-        projectName: this.projectName,
-        projectVersion: this.projectVersion,
-        author: this.author
+        javascriptType: this.javascriptType,
       }
     );
+    if (this.javascriptType === 'flow') {
+      this.fs.copyTpl(
+        this.templatePath('.flowconfig'),
+        this.destinationPath(this.projectName + '/.flowconfig')
+      );
+    }
   },
   install: function() {
 

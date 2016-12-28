@@ -74,7 +74,7 @@ const config = {
   postcss: function () {
     return[
       atImport({addDependencyTo: webpack, path: ["src/css"]}),
-      cssnext({browsers: ['> 1%', 'last 2 versions']}),
+      cssnext(),
     ];
   },
   resolve: {
