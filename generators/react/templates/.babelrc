@@ -5,7 +5,9 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-flow-strip-types",
+    <% if (javascriptType === 'flow') { %>
+    "<%= "transform-flow-strip-types" %>,"
+    <% } %>
     "syntax-jsx",
     "transform-es2015-modules-commonjs",
     "transform-decorators-legacy",
