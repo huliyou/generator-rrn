@@ -1,6 +1,6 @@
 {
   "name": "generator-rrn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "generator react react-native project",
   "main": "index.js",
   "scripts": {
