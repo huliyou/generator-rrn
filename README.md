@@ -11,3 +11,13 @@ cnpm i -g yo generator-rrn
 ```bash
 yo rrn:react
 ```
+
+## react-native
+```bash
+yo rrn:react-native
+```
+
+## rrn
+```bash
+yo rrn:rrn
+```
