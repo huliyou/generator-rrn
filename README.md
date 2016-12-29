@@ -4,7 +4,7 @@ react, react-native 项目生成器
 
 ## usage
 ```bash
-cnpm i -g yo generator--rrn
+cnpm i -g yo generator-rrn
 ```
 
 ## react
