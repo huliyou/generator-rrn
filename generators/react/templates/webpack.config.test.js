@@ -43,20 +43,50 @@ const config = {
           <%}%>
           'postcss-loader?sourceMap'
         ),
-        exclude: /node_modules/,
+        exclude: /node_modules|npminstall/,
       },
+      <%
+        var useSass = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'sass') {
+            useSass = true;
+          }
+        });
+        if (useSass) {
+      %>
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
+        loader: ExtractTextPlugin.extract('style',
           <% if (useCssModules) {%>
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]' +
           <%} else {%>
           'css',
           <%}%>
-          '!autoprefixer-loader!sass-loader'
+          'sass-loader'
         ),
       },
+      <% } %>
+      <%
+        var useLess = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'less') {
+            useLess = true;
+          }
+        });
+        if (useLess) {
+      %>
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract('style',
+          <% if (useCssModules) {%>
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]' +
+          <%} else {%>
+          'css',
+          <%}%>
+          'less-loader'
+        ),
+      },
+      <% } %>
       {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=100000000',
@@ -70,8 +100,19 @@ const config = {
   },
   postcss: function () {
     return[
+      <%
+        var useCssnext = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'cssnext') {
+            useCssnext = true;
+          }
+        });
+        if (useCssnext) {
+      %>
       atImport({addDependencyTo: webpack, path: ["src/css"]}),
-      cssnext({browsers: ['> 1%', 'last 2 versions']}),
+      cssnext(),
+      <% } %>
+      require('autoprefixer'),
     ];
   },
   resolve: {

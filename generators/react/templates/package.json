@@ -14,6 +14,7 @@
     "redux-thunk": "^2.0.1"
   },
   "devDependencies": {
+    "autoprefixer": "^6.6.0",
     "babel": "^6.5.2",
     "babel-core": "^6.7.2",
     "babel-eslint": "^5.0.0",
@@ -47,11 +48,55 @@
     "html-webpack-plugin": "2.17.0",
     "imports-loader": "^0.6.5",
     "json-loader": "^0.5.4",
+    <%
+      var useLess = false;
+      cssPreprocessors.forEach(cssPreprocessor => {
+        if (cssPreprocessor === 'less') {
+          useLess = true;
+        }
+      });
+      if (useLess) {
+    %>
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    <% } %>
+    <%
+      var useSass = false;
+      cssPreprocessors.forEach(cssPreprocessor => {
+        if (cssPreprocessor === 'sass') {
+          useSass = true;
+        }
+      });
+      if (useSass) {
+    %>
+    "node-sass": "3.7.0",
+    <% } %>
+    <%
+      var useCssnext = false;
+      cssPreprocessors.forEach(cssPreprocessor => {
+        if (cssPreprocessor === 'cssnext') {
+          useCssnext = true;
+        }
+      });
+      if (useCssnext) {
+    %>
     "postcss-cssnext": "^2.8.0",
     "postcss-import": "^8.2.0",
+    <% } %>
     "postcss-loader": "^1.1.1",
     "react-hot-loader": "^1.3.0",
     "react-svg-loader": "^1.0.0",
+    <%
+      var useSass = false;
+      cssPreprocessors.forEach(cssPreprocessor => {
+        if (cssPreprocessor === 'sass') {
+          useSass = true;
+        }
+      });
+      if (useSass) {
+    %>
+    "sass-loader": "^3.2.0",
+    <% } %>
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",

@@ -37,6 +37,15 @@ const config = {
         ],
         exclude: /node_modules/,
       },
+      <%
+        var useSass = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'sass') {
+            useSass = true;
+          }
+        });
+        if (useSass) {
+      %>
       {
         test: /\.scss$/,
         loaders: [
@@ -50,6 +59,30 @@ const config = {
         ],
         exclude: /node_modules/,
       },
+      <% } %>
+      <%
+        var useLess = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'less') {
+            useLess = true;
+          }
+        });
+        if (useLess) {
+      %>
+      {
+        test: /\.less$/,
+        loaders: [
+          'style?sourceMap',
+          <% if (useCssModules) {%>
+          'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          <%} else {%>
+          'css',
+          <%}%>
+          'less?sourceMap',
+        ],
+        exclude: /node_modules/,
+      },
+      <% } %>
       {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=100000000',
@@ -60,10 +93,21 @@ const config = {
       },
     ],
   },
-  postcss: function () {
+  postcss: function (webpack) {
     return[
+      <%
+        var useCssnext = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'cssnext') {
+            useCssnext = true;
+          }
+        });
+        if (useCssnext) {
+      %>
       atImport({addDependencyTo: webpack, path: ["src/css"]}),
-      cssnext({browsers: ['> 1%', 'last 2 versions']}),
+      cssnext(),
+      <% } %>
+      require('autoprefixer'),
     ];
   },
   resolve: {

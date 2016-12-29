@@ -32,10 +32,6 @@ const config = {
         loader: 'babel?cacheDirectory',
         cacheable: true,
       },
-      // {
-      //   test: /\.css/,
-      //   loader: ExtractTextPlugin.extract('style', 'css-loader?sourceMap'),
-      // },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
@@ -49,6 +45,15 @@ const config = {
         ),
         exclude: /node_modules|npminstall/,
       },
+      <%
+        var useSass = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'sass') {
+            useSass = true;
+          }
+        });
+        if (useSass) {
+      %>
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style',
@@ -57,9 +62,31 @@ const config = {
           <%} else {%>
           'css',
           <%}%>
-          '!autoprefixer-loader!sass-loader'
+          'sass-loader'
         ),
       },
+      <% } %>
+      <%
+        var useLess = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'less') {
+            useLess = true;
+          }
+        });
+        if (useLess) {
+      %>
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract('style',
+          <% if (useCssModules) {%>
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]' +
+          <%} else {%>
+          'css',
+          <%}%>
+          'less-loader'
+        ),
+      },
+      <% } %>
       {
         test: /\.(png|jpg)$/,
         loader: 'url-loader?limit=100000000',
@@ -71,10 +98,21 @@ const config = {
     ],
     noParse: [reactPath],
   },
-  postcss: function () {
+  postcss: function (webpack) {
     return[
+      <%
+        var useCssnext = false;
+        cssPreprocessors.forEach(cssPreprocessor => {
+          if (cssPreprocessor === 'cssnext') {
+            useCssnext = true;
+          }
+        });
+        if (useCssnext) {
+      %>
       atImport({addDependencyTo: webpack, path: ["src/css"]}),
       cssnext(),
+      <% } %>
+      require('autoprefixer'),
     ];
   },
   resolve: {
