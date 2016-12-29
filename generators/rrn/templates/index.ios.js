@@ -1,14 +1,14 @@
 /* tslint:disable:no-console */
-import { View, Text, AppRegistry } from 'react-native';
+import { View, AppRegistry } from 'react-native';
+import { DatePicker, List } from 'antd-mobile';
 import React from 'react';
+import { createForm } from 'rc-form';
 
 let MobileDemo = React.createClass({
   render() {
-    return (
-      <View style={{ marginTop: 20 }}>
-        <Text>hello world</Text>
-      </View>
-    );
+    return (<View style={{ marginTop: 20 }}>
+      hello world
+    </View>);
   }
 });
 
