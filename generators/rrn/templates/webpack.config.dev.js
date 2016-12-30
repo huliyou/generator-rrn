@@ -111,9 +111,9 @@ const config = {
     ];
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.web.js', '.js', '.jsx'],
     alias: {
-      'react/lib/ReactMount': 'react-dom/lib/ReactMount'
+      'react-native': 'react-native-web'
     },
   },
   output: {

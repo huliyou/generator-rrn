@@ -116,11 +116,9 @@ const config = {
     ];
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.web.js', '.js', '.jsx'],
     alias: {
-      // 'react/lib': reactLibPath,
-      // react: reactPath,
-      // 'react-router': reactRouterPath,
+      'react-native': 'react-native-web'
     },
   },
   output: {

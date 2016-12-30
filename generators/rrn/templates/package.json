@@ -122,7 +122,8 @@
     "babel-runtime": "6.x",
     "react": "15.3.x",
     "react-dom": "15.3.x",
-    "react-native": "0.34.0"
+    "react-native": "0.34.0",
+    "react-native-web": "0.0.61"
   },
   "pre-commit": [
     "lint"

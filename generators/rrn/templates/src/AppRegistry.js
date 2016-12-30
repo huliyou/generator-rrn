@@ -1,22 +1,5 @@
-import store from './store';
-import routes from './routes';
+import { AppRegistry } from 'react-native';
 import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { hashHistory, browserHistory, Router } from 'react-router';
-import AppInfo from '../AppInfo';
+import IsomorphicComponent from './components/isomorphic';
 
-const history = hashHistory;
-
-const rootElement = document.getElementById('app');
-
-export function AppRegistry() {
-  render(
-    <Provider store={store}>
-      <Router history={history}>
-        {routes}
-      </Router>
-    </Provider>,
-    rootElement
-  );
-}
+AppRegistry.registerComponent('MobileDemo', () => IsomorphicComponent);
